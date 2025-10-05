@@ -153,12 +153,12 @@ class Park_School_Planner:
             suelo_count[suelo] = suelo_count.get(suelo, 0) + 1
 
         insights = {
-            "score_total": score_total,
-            "n_parques": n_parques,
-            "n_escuelas": n_escuelas,
-            "contrib_infra": contrib_infra,
-            "contrib_pobla": contrib_pobla,
-            "contrib_serv": contrib_serv,
-            "suelo_count": suelo_count
+            "score_total": float(score_total),
+            "n_parques": int(n_parques),
+            "n_escuelas": int(n_escuelas),
+            "contrib_infra": float(contrib_infra),
+            "contrib_pobla": float(contrib_pobla),
+            "contrib_serv": float(contrib_serv),
+            "suelo_count": {k: int(v) for k, v in suelo_count.items()}
         }
         return insights

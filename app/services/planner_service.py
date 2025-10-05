@@ -41,8 +41,14 @@ class PlannerService:
         """Filtra zona según bounding box"""
         zona_bbox = box(bbox['lon_min'], bbox['lat_min'], 
                        bbox['lon_max'], bbox['lat_max'])
+            
+        # Convertir a CRS proyectado para cálculos precisos
+        merged_projected = self.merged.to_crs(epsg=32614)  # UTM Zone 14N para Monterrey
+        bbox_gdf = gpd.GeoDataFrame([1], geometry=[zona_bbox], crs="EPSG:4326")
+        bbox_projected = bbox_gdf.to_crs(epsg=32614)
+        
         zona_filtrada = self.merged[
-            self.merged['geometry'].centroid.within(zona_bbox)
+            merged_projected.geometry.centroid.within(bbox_projected.geometry.iloc[0])
         ].copy()
         return zona_filtrada
     
